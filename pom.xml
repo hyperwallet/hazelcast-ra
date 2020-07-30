@@ -13,9 +13,9 @@
   ~ specific language governing permissions and limitations under the License.
   --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <name>hazelcast-ra</name>
-    <groupId>com.hazelcast</groupId>
-    <artifactId>hazelcast-ra</artifactId>
+    <name>hw-hazelcast-ra</name>
+    <groupId>com.hyperwallet</groupId>
+    <artifactId>hw-hazelcast-ra</artifactId>
     <version>4.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Hazelcast In-Memory DataGrid Ra Plugin</description>
@@ -82,25 +82,17 @@
     </developers>
 
     <distributionManagement>
-        <repository>
-            <id>release-repository</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
         <snapshotRepository>
-            <id>snapshot-repository</id>
-            <name>Maven2 Snapshot Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <uniqueVersion>false</uniqueVersion>
+            <id>libs-snapshot-local</id>
+            <name>libs-snapshot-local</name>
+            <url>https://artifactory.aws.paylution.net/libs-snapshot-local</url>
         </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
         <repository>
-            <id>snapshot-repository</id>
-            <name>Maven2 Snapshot Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>libs-release-local</id>
+            <name>libs-release-local</name>
+            <url>https://artifactory.aws.paylution.net/libs-release-local</url>
         </repository>
-    </repositories>
+    </distributionManagement>
 
     <dependencies>
         <dependency>

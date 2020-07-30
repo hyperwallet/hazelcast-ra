@@ -16,12 +16,15 @@
 package com.hazelcast.jca;
 
 import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.XmlClientConfigBuilder;
 import com.hazelcast.config.ConfigBuilder;
 import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.resource.Referenceable;
@@ -125,14 +128,22 @@ public class ResourceAdapterImpl implements ResourceAdapter, Referenceable, Seri
      */
     @Override
     public void start(BootstrapContext ctx) throws ResourceAdapterInternalException {
-        if (client != null && client) {
-            // Creates the hazelcast client instance
-            XmlClientConfigBuilder configBuilder = buildClientConfiguration();
-            hazelcastInstance = HazelcastClient.newHazelcastClient(configBuilder.build());
-        } else {
-            // Gets/creates the hazelcast instance
-            ConfigBuilder config = buildConfiguration();
-            hazelcastInstance = Hazelcast.newHazelcastInstance(config.build());
+        try {
+            if (client != null && client) {
+                // Creates the hazelcast client instance
+                XmlClientConfigBuilder configBuilder = buildClientConfiguration();
+                ClientConfig config = configBuilder.build();
+                config.setClassLoader(new HWClassLoader(Thread.currentThread().getContextClassLoader()));
+                hazelcastInstance = HazelcastClient.newHazelcastClient(config);
+                Context context = new InitialContext();
+                context.bind("hyperwallet/Hazelcast", hazelcastInstance);
+            } else {
+                // Gets/creates the hazelcast instance
+                ConfigBuilder config = buildConfiguration();
+                hazelcastInstance = Hazelcast.newHazelcastInstance(config.build());
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Something went wrong while trying to initialize the hazelcast resource adapter", e);
         }
     }
 

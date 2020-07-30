@@ -1,3 +1,7 @@
+# Hyperwallet's fork of hazelcast-ra
+##### See https://confluence.site1.hyperwallet.local/display/DP/Hazelcast+JCA+Changes for how to deploy this 
+##### Original readme.md follows below:
+
 # Table of Contents
 
 * [Getting Started](#getting-started)
