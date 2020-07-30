@@ -15,12 +15,12 @@
   --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>hazelcast-jca-rar</name>
-    <artifactId>hazelcast-jca-rar</artifactId>
+    <artifactId>hw-hazelcast-jca-rar</artifactId>
     <packaging>rar</packaging>
 
     <parent>
-        <groupId>com.hazelcast</groupId>
-        <artifactId>hazelcast-ra</artifactId>
+        <groupId>com.hyperwallet</groupId>
+        <artifactId>hw-hazelcast-ra</artifactId>
         <version>3.7.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -32,8 +32,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-jca</artifactId>
+            <groupId>com.hyperwallet</groupId>
+            <artifactId>hw-hazelcast-jca</artifactId>
             <version>${project.parent.version}</version>
             <scope>provided</scope> <!-- FIXME wildfly10: extend wildfly with new module com.hazelcast:main -->
         </dependency>
