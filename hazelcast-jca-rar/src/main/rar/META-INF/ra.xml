@@ -40,7 +40,7 @@
             <description>Create a Hazelcast Client Instance? Defaults to false (Server)</description>
             <config-property-name>client</config-property-name>
             <config-property-type>java.lang.Boolean</config-property-type>
-            <config-property-value>false</config-property-value>
+            <config-property-value>true</config-property-value>
         </config-property>
 
         <outbound-resourceadapter>
