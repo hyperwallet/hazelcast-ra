@@ -18,10 +18,14 @@ package com.hazelcast.jca;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.transaction.TransactionContext;
+import com.hazelcast.transaction.TransactionOptions;
 
 import javax.resource.ResourceException;
 import javax.resource.spi.ConnectionEvent;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+
+import static com.hazelcast.jca.ResourceAdapterImpl.HAZELCAST_TRANSACTION_TIMEOUT;
 
 /**
  * Implementation class of {@link com.hazelcast.jca.HazelcastTransaction}
@@ -75,7 +79,9 @@ public class HazelcastTransactionImpl extends JcaBase implements HazelcastTransa
         if (null == txContext) {
             factory.logHzConnectionEvent(this, HzConnectionEvent.TX_START);
 
-            txContext = getHazelcastInstance().newTransactionContext();
+            this.txContext = getHazelcastInstance().newTransactionContext(TransactionOptions.getDefault()
+                    .setTimeout(HAZELCAST_TRANSACTION_TIMEOUT, TimeUnit.SECONDS)
+            );
 
             log(Level.FINEST, "begin");
             txContext.beginTransaction();

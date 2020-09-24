@@ -23,6 +23,8 @@ import com.hazelcast.config.ConfigBuilder;
 import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.logging.ILogger;
+import com.hazelcast.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -43,6 +45,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
 /**
  * This is the starting point of the whole resource adapter for hazelcast.
@@ -58,6 +61,10 @@ import java.util.concurrent.atomic.AtomicInteger;
         transactionSupport = TransactionSupport.TransactionSupportLevel.XATransaction,
         version = "3.8")
 public class ResourceAdapterImpl implements ResourceAdapter, Referenceable, Serializable {
+
+    public static final long HAZELCAST_TRANSACTION_TIMEOUT = System.getProperty("HAZELCAST_TRANSACTION_TIMEOUT") == null ?
+            28_800 : Long.valueOf(System.getProperty("HAZELCAST_TRANSACTION_TIMEOUT"));
+    private static final ILogger logger = Logger.getLogger("com.hazelcast.jca");
 
     /**
      * Identity generator
@@ -129,6 +136,7 @@ public class ResourceAdapterImpl implements ResourceAdapter, Referenceable, Seri
      */
     @Override
     public void start(BootstrapContext ctx) throws ResourceAdapterInternalException {
+        logger.log(Level.INFO, "Setting hazelcast transaction timeout to: " + HAZELCAST_TRANSACTION_TIMEOUT + " seconds");
         try {
             if (client != null && client) {
                 // Creates the hazelcast client instance
